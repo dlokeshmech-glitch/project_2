@@ -5,7 +5,7 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/dlokeshmech-glitch/project_2.git'
+                git branch: 'main', url: 'https://github.com/dlokeshmech-glitch/project_2.git'
             }
         }
 
