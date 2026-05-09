@@ -1,92 +1,136 @@
-DevOps Practice Project – Dist Directory
+# DevOps Practice Project – Trend Application Deployment
 
-This repository contains the production-ready build files (dist folder) for DevOps practice and deployment exercises.
+## Project Overview
 
-It is intentionally structured to help learners focus on CI/CD pipelines, hosting, containerization, and infrastructure setup rather than application development.
+This project demonstrates a complete DevOps workflow for deploying a production-ready application using Docker, Jenkins, Terraform, Kubernetes, and AWS EKS.
 
-📁 What This Repository Contains
+The application source contains only production build files (`dist/` folder). The deployment pipeline includes containerization, CI/CD automation, Kubernetes deployment, infrastructure provisioning, monitoring setup, and GitHub integration.
 
-dist/ – Compiled and production-ready static files
+---
 
-HTML
+# Tools Used
 
-CSS
+- Git & GitHub
+- Docker
+- DockerHub
+- Jenkins
+- Terraform
+- AWS EC2
+- AWS EKS
+- Kubernetes
+- kubectl
+- eksctl
+- Kubernetes Dashboard
+- GitHub Webhook
 
-JavaScript
+---
 
-Assets (images, fonts, etc.)
+# Docker Steps
 
-These files are ready to deploy to:
+## Build Docker Image
+Run Docker Container
+docker run -d -p 80:80 trend-app
+Push Docker Image to DockerHub
+docker tag trend-app <dockerhub-username>/trend-app:latest
+docker push <dockerhub-username>/trend-app:latest
+Jenkins Pipeline Explanation
 
-Web servers (Nginx / Apache)
+Jenkins was configured as the CI/CD tool for automating the deployment workflow.
 
-Cloud platforms (AWS S3, Azure Blob, GCP Storage)
+Pipeline stages include:
 
-Containerized environments (Docker + Nginx)
+Clone GitHub Repository
+Build Docker Image
+Push Docker Image to DockerHub
+Deploy Application to Kubernetes
+Verify Deployment
 
-Kubernetes clusters
+The pipeline is defined using a Jenkinsfile.
 
-CI/CD pipeline demonstrations
+Terraform Explanation
+Terraform was used to provision AWS infrastructure resources.
 
-🎯 Purpose of This Repository
+Resources created:
 
-This repository is designed for:
+AWS EC2 Instance
+Security Groups
+Networking Components
 
-DevOps beginners
+Terraform Commands Used:
 
-CI/CD practice
+terraform init
+terraform plan
+terraform apply
 
-Deployment pipeline testing
+EKS Deployment Steps
+Create EKS Cluster
+eksctl create cluster \
+--name trend-cluster \
+--region ap-south-1 \
+--nodegroup-name linux-nodes \
+--node-type t3.medium \
+--nodes 2
+Verify Nodes
+kubectl get nodes
 
-Docker & Kubernetes deployment exercises
+Deploy Application
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+Kubernetes Commands Used
+Check Pods
+kubectl get pods
 
-Web server configuration practice
+Check Services
+kubectl get svc
+Check Deployments
+kubectl get deployments
+Describe Service
+kubectl describe svc trend-service
+Webhook Integration
 
-Reverse proxy and load balancer setup
+GitHub webhook integration was configured with Jenkins for automatic build triggering on every GitHub commit.
 
-The goal is to simulate real-world deployment scenarios using already built application files.
+Webhook URL format used:
 
-❓ Why is there NO package.json?
+http://<jenkins-public-ip>:8080/github-webhook/
+Monitoring Setup
 
-You may notice that this repository does not include:
+Kubernetes Dashboard and Metrics Server were configured for cluster monitoring and application health checking.
 
-package.json
+Monitoring Features:
+Pod status monitoring
+Node monitoring
+Deployment monitoring
+Resource utilization checking
+Application LoadBalancer URL
+http://ae864e826725b4d1387e367018756432-1085349571.ap-south-1.elb.amazonaws.com
+Application LoadBalancer ARN
+Add your LoadBalancer ARN here from AWS Console
+Repository Structure
+project_2/
+│
+├── dist/
+├── Dockerfile
+├── Jenkinsfile
+├── deployment.yaml
+├── service.yaml
+├── main.tf
+├── .gitignore
+├── .dockerignore
+├── screenshots/
+└── README.md
+creenshots
 
-node_modules
+All deployment, Docker, Jenkins, Terraform, Kubernetes, and monitoring screenshots are available inside the screenshots/ folder.
 
-Source code (src/)
+Project Status
 
-Build tools configuration
-
-✅ Reason:
-
-This repository only contains the final production build output (dist), not the development source code.
-
-In a typical project:
-
-Developers write source code.
-
-The project is built using tools like:
-
-Node.js
-
-Webpack
-
-Vite
-
-React (or other frameworks)
-
-A dist/ folder is generated.
-
-Only the production build is deployed to servers.
-
-This repository represents step 4 only.
-
-Since this is already the compiled output:
-
-No dependencies are required
-
-No build process is required
-
-No package.json is needed
-Webhook test for jerkins buildup through github
+✅ Dockerized Application
+✅ Jenkins CI/CD Pipeline
+✅ DockerHub Integration
+✅ Terraform Infrastructure
+✅ AWS EKS Cluster
+✅ Kubernetes Deployment
+✅ LoadBalancer Service
+✅ Monitoring Setup
+✅ GitHub Webhook Integration
