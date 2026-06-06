@@ -1,0 +1,59 @@
+Monitoring
+Monitoring Setup
+
+To improve cluster observability and health monitoring, open-source Kubernetes monitoring tools were configured and evaluated.
+
+Metrics Server
+
+Metrics Server was deployed in the Amazon EKS cluster to provide resource usage metrics for Kubernetes components.
+
+Purpose:
+
+Monitor cluster health
+Monitor node status
+Monitor pod status
+Enable resource utilization tracking
+Kubernetes Native Monitoring
+
+The following Kubernetes commands were used to monitor cluster and application health:
+
+kubectl get nodes
+kubectl get pods -A
+kubectl get deployments -A
+kubectl get svc -A
+Monitoring Results
+Cluster Health
+
+All EKS worker nodes were verified to be in a Ready state.
+
+kubectl get nodes
+Pod Health
+
+All system and application pods were monitored to ensure they were running successfully.
+
+kubectl get pods -A
+Deployment Status
+
+Application deployments were monitored and verified.
+
+kubectl get deployments -A
+Service Availability
+
+Kubernetes services and load balancer endpoints were monitored.
+
+kubectl get svc -A
+Open-Source Monitoring Tools Used
+Tool	Purpose
+Metrics Server	Cluster resource monitoring
+Kubernetes Dashboard	Cluster visualization and monitoring
+kubectl Monitoring Commands	Cluster health verification
+
+The monitoring setup successfully verified:
+
+Kubernetes cluster health
+Worker node availability
+Pod status and availability
+Deployment health
+Service accessibility
+Overall EKS cluster functionality
+Also update your Project Overview
