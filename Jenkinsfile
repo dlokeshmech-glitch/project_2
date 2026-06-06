@@ -3,23 +3,29 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
+        stage('Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/dlokeshmech-glitch/project_2.git'
+                echo 'Cloning Repository'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Docker Build') {
             steps {
-                sh 'docker build -t trend-app .'
+                sh 'docker build -t lokeshdev7/trend-app_project2:v1 .'
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Docker Push') {
             steps {
-                sh 'docker stop trend-container || true'
-                sh 'docker rm trend-container || true'
-                sh 'docker run -d --name trend-container -p 3000:80 trend-app'
+                sh 'docker login -u DOCKER_USER -p DOCKER_PASSWORD'
+                sh 'docker push lokeshdev7/trend-app_project2:v1'
+            }
+        }
+
+        stage('Deploy EKS') {
+            steps {
+                sh 'kubectl apply -f deployment.yaml'
+                sh 'kubectl apply -f service.yaml'
             }
         }
     }
