@@ -1,0 +1,317 @@
+Started by user admin
+Obtained Jenkinsfile from git https://github.com/dlokeshmech-glitch/project_2
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/Trend-Pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: git
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/Trend-Pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/dlokeshmech-glitch/project_2 # timeout=10
+Fetching upstream changes from https://github.com/dlokeshmech-glitch/project_2
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- https://github.com/dlokeshmech-glitch/project_2 +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision d0be658b64173145988fb020b0f6ee4a8f43b23a (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f d0be658b64173145988fb020b0f6ee4a8f43b23a # timeout=10
+Commit message: "Update Jenkinsfile"
+ > git rev-list --no-walk d73e29093c3ed19803af6ab74188741ac0e330c9 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone)
+[Pipeline] checkout
+The recommended git tool is: git
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/Trend-Pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/dlokeshmech-glitch/project_2 # timeout=10
+Fetching upstream changes from https://github.com/dlokeshmech-glitch/project_2
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- https://github.com/dlokeshmech-glitch/project_2 +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision d0be658b64173145988fb020b0f6ee4a8f43b23a (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f d0be658b64173145988fb020b0f6ee4a8f43b23a # timeout=10
+Commit message: "Update Jenkinsfile"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Check Tools)
+[Pipeline] sh
++ docker --version
+Docker version 26.1.5+dfsg1, build a72d7cd
+[Pipeline] sh
++ aws --version
+aws-cli/2.34.63 Python/3.14.5 Linux/6.8.0-1008-aws exe/x86_64.debian.13
+[Pipeline] sh
++ kubectl version --client
+Client Version: v1.34.1
+Kustomize Version: v5.7.1
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Build)
+[Pipeline] sh
++ docker build -t lokeshdev7/trend-app_project2:v1 .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 100B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/nginx:alpine
+#2 ...
+
+#3 [auth] library/nginx:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/nginx:alpine
+#2 DONE 1.3s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 68B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 3.87kB done
+#5 DONE 0.0s
+
+#6 [1/2] FROM docker.io/library/nginx:alpine@sha256:8b1e78743a03dbb2c95171cc58639fef29abc8816598e27fb910ed2e621e589a
+#6 resolve docker.io/library/nginx:alpine@sha256:8b1e78743a03dbb2c95171cc58639fef29abc8816598e27fb910ed2e621e589a 0.0s done
+#6 DONE 0.0s
+
+#7 [2/2] COPY dist/ /usr/share/nginx/html
+#7 CACHED
+
+#8 exporting to image
+#8 exporting layers done
+#8 exporting manifest sha256:67a3e28b3f11e431bd235272bc68474d1dc18b28cd1d481bedef3f26614fbd55 done
+#8 exporting config sha256:a880ca942ccea640031a9a8982fb6f7ff624976b817d51bc8e03fee2949587e5 done
+#8 exporting attestation manifest sha256:a216ed60124ace74a826e67fa12578e2b7d48aaca1a5259c0ff63fce54e20a17 0.0s done
+#8 exporting manifest list sha256:18288dd7a6bdab95612b1e991d9ba5eb439f8a5e45f90a35cee3a48a36748c2f 0.0s done
+#8 naming to docker.io/lokeshdev7/trend-app_project2:v1 0.0s done
+#8 unpacking to docker.io/lokeshdev7/trend-app_project2:v1 0.0s done
+#8 DONE 0.2s
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Login)
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_PASSWORD
+[Pipeline] {
+[Pipeline] sh
++ echo ****
++ docker login -u lokeshdev7 --password-stdin
+WARNING! Your password will be stored unencrypted in /var/jenkins_home/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Push)
+[Pipeline] sh
++ docker push lokeshdev7/trend-app_project2:v1
+The push refers to repository [docker.io/lokeshdev7/trend-app_project2]
+43f834d60d8a: Waiting
+6a0ac1617861: Waiting
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+43f834d60d8a: Waiting
+6a0ac1617861: Waiting
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+43f834d60d8a: Waiting
+6a0ac1617861: Waiting
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+43f834d60d8a: Waiting
+6a0ac1617861: Waiting
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+43f834d60d8a: Waiting
+6a0ac1617861: Waiting
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+a73cd4dea276: Waiting
+43f834d60d8a: Waiting
+6a0ac1617861: Waiting
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+43f834d60d8a: Waiting
+6a0ac1617861: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+43f834d60d8a: Waiting
+6a0ac1617861: Waiting
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+320f5b1153cc: Waiting
+43f834d60d8a: Waiting
+6a0ac1617861: Waiting
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+43f834d60d8a: Waiting
+6a0ac1617861: Waiting
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+43f834d60d8a: Waiting
+6a0ac1617861: Waiting
+de1b677d8c00: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+43f834d60d8a: Waiting
+6a0ac1617861: Layer already exists
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+de1b677d8c00: Waiting
+e654dbbbb9e1: Waiting
+fbaed3f7fcbe: Waiting
+94d083cf706a: Waiting
+a5008f4a4b25: Waiting
+a73cd4dea276: Waiting
+abaae85d1626: Waiting
+320f5b1153cc: Waiting
+43f834d60d8a: Waiting
+e654dbbbb9e1: Layer already exists
+fbaed3f7fcbe: Layer already exists
+94d083cf706a: Layer already exists
+a5008f4a4b25: Layer already exists
+a73cd4dea276: Waiting
+abaae85d1626: Layer already exists
+320f5b1153cc: Layer already exists
+43f834d60d8a: Layer already exists
+de1b677d8c00: Layer already exists
+a73cd4dea276: Pushed
+v1: digest: sha256:18288dd7a6bdab95612b1e991d9ba5eb439f8a5e45f90a35cee3a48a36748c2f size: 856
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy to EKS)
+[Pipeline] withCredentials
+Masking supported pattern matches of $AWS_SECRET_ACCESS_KEY
+[Pipeline] {
+[Pipeline] sh
++ export AWS_ACCESS_KEY_ID=AKIA54H52JAJ4UMMYMUO
++ export AWS_SECRET_ACCESS_KEY=****
++ aws eks update-kubeconfig --region ap-south-1 --name trend-cluster
+Updated context arn:aws:eks:ap-south-1:954015041555:cluster/trend-cluster in /var/jenkins_home/.kube/config
++ kubectl get nodes
+NAME                                            STATUS   ROLES    AGE     VERSION
+ip-192-168-4-93.ap-south-1.compute.internal     Ready    <none>   4h35m   v1.34.8-eks-3385e9b
+ip-192-168-49-182.ap-south-1.compute.internal   Ready    <none>   3h27m   v1.34.8-eks-3385e9b
+ip-192-168-67-116.ap-south-1.compute.internal   Ready    <none>   3h52m   v1.34.8-eks-3385e9b
++ kubectl apply -f deployment.yaml
+deployment.apps/trend-deployment configured
++ kubectl apply -f service.yaml
+service/trend-service unchanged
++ kubectl get pods
+NAME                               READY   STATUS    RESTARTS   AGE
+trend-deployment-8b5569458-2225f   1/1     Running   0          3h38m
+trend-deployment-8b5569458-f7688   1/1     Running   0          5s
++ kubectl get svc
+NAME            TYPE           CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)        AGE
+kubernetes      ClusterIP      10.100.0.1      <none>                                                                    443/TCP        4h41m
+trend-service   LoadBalancer   10.100.210.21   a1e9c9abf252549c29abc355d32823f4-181965862.ap-south-1.elb.amazonaws.com   80:31580/TCP   4h26m
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Pipeline executed successfully!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
