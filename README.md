@@ -1,254 +1,408 @@
-DevOps Practice Project – Trend Application Deployment
-Project Overview
+# 🚀 Trend Store Application Deployment using DevOps on AWS
 
-This project demonstrates a complete DevOps workflow for deploying a production-ready React application using Docker, Jenkins, Terraform, Kubernetes, AWS EKS, and DockerHub.
+## 📌 Project Overview
 
-The objective was to automate the application deployment lifecycle from infrastructure provisioning to Kubernetes deployment using CI/CD principles.
+This project demonstrates a complete end-to-end DevOps implementation for deploying the **Trend Store React Application** on **Amazon Web Services (AWS)** using modern DevOps tools and best practices.
 
-Architecture
-GitHub Repository
-        │
-        ▼
-     Jenkins
-        │
-        ▼
- Docker Build
-        │
-        ▼
- DockerHub
-        │
-        ▼
- Amazon EKS
-        │
-        ▼
- Kubernetes Deployment
-        │
-        ▼
- Application LoadBalancer
-Tools & Technologies Used
-Tool	Purpose
-GitHub	Source Code Management
-Jenkins	CI/CD Pipeline
-Docker	Containerization
-DockerHub	Container Registry
-Terraform	Infrastructure Provisioning
-AWS EC2	Jenkins Server
-AWS EKS	Kubernetes Cluster
-Kubernetes	Container Orchestration
-Metrics Server	Cluster Monitoring
-AWS LoadBalancer	Application Exposure
-Application Deployment
+The application is containerized with Docker, infrastructure is provisioned using Terraform, Continuous Integration and Continuous Deployment (CI/CD) is implemented through Jenkins, the application is deployed to Amazon EKS, and monitoring is configured using Prometheus and Grafana.
 
-Repository Used:
+---
 
-https://github.com/Vennilavanugvi/Trend.git
+# 🏗️ Project Architecture
 
-Application Port:
+```
+                    GitHub Repository
+                           │
+                           ▼
+                      Jenkins Pipeline
+                  (Build • Test • Deploy)
+                           │
+            ┌──────────────┴──────────────┐
+            ▼                             ▼
+     Docker Image Build             Terraform
+            │                  Infrastructure as Code
+            ▼                             │
+      DockerHub Registry                  ▼
+            │                    AWS Infrastructure
+            │                  (VPC, EC2, IAM, SG)
+            ▼                             │
+      Amazon EKS Cluster ◄────────────────┘
+            │
+            ▼
+     Trend Store Application
+            │
+            ▼
+  Prometheus + Node Exporter
+            │
+            ▼
+      Grafana Dashboard
+```
 
-3000
-Docker Implementation
-Dockerfile Creation
+---
 
-A Dockerfile was created to containerize the React application.
+# 📂 Repository Structure
 
-Docker Image Build
-docker build -t lokeshdev7/trend-app_project2:v1 .
-Docker Image Push
-docker push lokeshdev7/trend-app_project2:v1
+```
+project_2/
+│
+├── dist/
+├── jenkins-terraform/
+│   ├── provider.tf
+│   ├── variables.tf
+│   ├── terraform.tfvars
+│   ├── main.tf
+│   ├── outputs.tf
+│   ├── jenkins-install.sh
+│   └── README.md
+│
+├── monitoring/
+│   ├── docker-compose.yml
+│   ├── prometheus.yml
+│   ├── README.md
+│   └── Screenshots
+│
+├── screenshots/
+│
+├── Dockerfile
+├── Jenkinsfile
+├── deployment.yaml
+├── service.yaml
+├── .gitignore
+├── .dockerignore
+└── README.md
+```
 
-DockerHub Repository:
+---
 
-https://hub.docker.com/r/lokeshdev7/trend-app_project2
-Terraform Infrastructure
+# 🛠️ Technologies Used
+
+| Category | Tools |
+|-----------|-------|
+| Cloud | AWS |
+| Infrastructure | Terraform |
+| CI/CD | Jenkins |
+| Containerization | Docker |
+| Container Registry | DockerHub |
+| Orchestration | Kubernetes (Amazon EKS) |
+| Monitoring | Prometheus |
+| Visualization | Grafana |
+| Version Control | Git |
+| Repository | GitHub |
+| OS | Ubuntu 24.04 LTS |
+
+---
+
+# 🚀 Project Workflow
+
+## Step 1 – Version Control
+
+- Created GitHub Repository
+- Added source code
+- Configured `.gitignore`
+- Configured `.dockerignore`
+- Managed project using Git
+
+---
+
+## Step 2 – Docker
+
+- Created Dockerfile
+- Built Docker Image
+
+```
+docker build -t trend-app .
+```
+
+Verified container execution
+
+```
+docker run -p 3000:3000 trend-app
+```
+
+---
+
+## Step 3 – DockerHub
+
+Created DockerHub Repository
+
+Tagged Image
+
+```
+docker tag trend-app username/trend-app:latest
+```
+
+Pushed Image
+
+```
+docker push username/trend-app:latest
+```
+
+---
+
+## Step 4 – Infrastructure Provisioning using Terraform
 
 Terraform was used to provision AWS infrastructure.
 
-Resources Created:
+Infrastructure includes
 
-VPC
-Public Subnets
-Internet Gateway
-Route Tables
-Security Groups
-EC2 Instance (Jenkins Server)
-EKS Cluster
-EKS Worker Nodes
+- VPC
+- Public Subnet
+- Internet Gateway
+- Route Table
+- Security Groups
+- IAM Role
+- EC2 Instance
+- Jenkins Installation
 
-Terraform Commands:
+Terraform Commands
 
+```
 terraform init
+terraform validate
 terraform plan
 terraform apply
-Kubernetes Setup
+```
 
-Amazon EKS Cluster was created and configured.
+---
 
-Cluster Verification:
+## Step 5 – Jenkins Installation
 
-kubectl get nodes
+Jenkins was automatically installed on the EC2 instance using a Terraform user-data shell script.
 
-Deployment Creation:
+Installed Plugins
 
+- Docker
+- Kubernetes
+- Pipeline
+- Git
+- GitHub Integration
+
+Configured
+
+- GitHub Webhook
+- DockerHub Credentials
+- AWS Credentials
+- Kubernetes Credentials
+
+---
+
+## Step 6 – Jenkins CI/CD Pipeline
+
+Pipeline Stages
+
+```
+Git Checkout
+
+↓
+
+Docker Build
+
+↓
+
+Docker Image Push
+
+↓
+
+Deploy to Amazon EKS
+
+↓
+
+Verify Deployment
+```
+
+Jenkinsfile automates the complete CI/CD workflow.
+
+---
+
+## Step 7 – Amazon EKS Deployment
+
+Created Kubernetes Cluster
+
+Configured
+
+- Deployment.yaml
+- Service.yaml
+
+Deployment Commands
+
+```
 kubectl apply -f deployment.yaml
-
-Service Creation:
 
 kubectl apply -f service.yaml
 
-Verification:
-
 kubectl get pods
-kubectl get svc
-Version Control
-
-GitHub was used as the source code repository.
-
-Git Commands Used:
-
-git init
-git add .
-git commit -m "Initial Commit"
-git push origin main
-
-Additional Files:
-
-.gitignore
-.dockerignore
-Jenkins CI/CD Pipeline
-
-Jenkins was installed on AWS EC2.
-
-Plugins Installed
-Docker Pipeline
-Git
-Pipeline
-Kubernetes CLI
-Credentials Binding
-Jenkins Credentials
-DockerHub Credentials
-ID: dockerhub-creds
-AWS Credentials
-ID: aws-creds
-Pipeline Stages
-Source Code Checkout
-Docker Build
-Docker Login
-Docker Push
-Configure EKS
-Deploy to Kubernetes
-Verification
-
-Pipeline automatically:
-
-Pulls code from GitHub
-Builds Docker image
-Pushes image to DockerHub
-Deploys application to EKS
-GitHub Webhook Integration
-
-GitHub Webhook was configured to trigger Jenkins builds automatically whenever code is pushed to the repository.
-
-Webhook Endpoint:
-
-http://<jenkins-public-ip>:8080/github-webhook/
-
-Benefits:
-
-Automated CI/CD
-Automatic deployments
-Reduced manual intervention
-Monitoring
-Monitoring Setup
-
-Open-source Kubernetes monitoring was configured to monitor cluster and application health.
-
-Metrics Server
-
-Metrics Server was deployed for Kubernetes cluster monitoring.
-
-Purpose:
-
-Monitor cluster status
-Monitor node availability
-Monitor pod health
-Resource usage monitoring
-Cluster Health Monitoring
-
-Commands Used:
-
-kubectl get nodes
-kubectl get pods -A
-kubectl get deployments -A
-kubectl get svc -A
-Monitoring Outcome
-
-Verified:
-
-Worker Node Health
-Kubernetes Pod Health
-Deployment Status
-Service Availability
-Cluster Readiness
-Screenshots
-
-Screenshots are available in:
-
-screenshots/
-
-Included Screenshots:
-
-Terraform Apply
-AWS Infrastructure
-Jenkins Installation
-Jenkins Dashboard
-Jenkins Credentials
-Jenkins Pipeline
-Docker Build
-DockerHub Repository
-EKS Cluster
-Kubernetes Pods
-Kubernetes Services
-GitHub Webhook
-Application Access through LoadBalancer
-Monitoring Screenshots
-Application Verification
-
-Verify Application:
 
 kubectl get svc
+```
 
-Obtain LoadBalancer URL and access:
+Verified
 
-http://<LoadBalancer-DNS>
+- Running Pods
+- External LoadBalancer
+- Application Accessibility
 
-Application successfully deployed and accessible through Kubernetes LoadBalancer.
+---
 
-Project Outcome
+# 📊 Monitoring Setup
 
-Successfully implemented:
+Open-source monitoring tools were configured for cluster health monitoring.
 
-✅ Docker Containerization
+Components
 
-✅ Terraform Infrastructure Provisioning
+- Prometheus
+- Grafana
+- Node Exporter
 
-✅ AWS EKS Kubernetes Cluster
+Monitoring Services
 
-✅ Jenkins CI/CD Pipeline
+```
+Prometheus
+Port : 9090
 
-✅ DockerHub Integration
+Grafana
+Port : 3001
 
-✅ GitHub Webhook Automation
+Node Exporter
+Port : 9100
+```
 
-✅ Kubernetes Deployment
+Docker Compose was used to deploy the monitoring stack.
 
-✅ Application Exposure via LoadBalancer
+```
+docker compose up -d
+```
 
-✅ Cluster Monitoring
+---
 
-✅ End-to-End DevOps Automation
+## Grafana Dashboard
 
-Author
+Configured
 
-Lokesh D
+- Prometheus Data Source
 
-DevOps Practice Project – Trend Application Deployment
+Created Dashboard displaying
+
+- CPU Usage
+- Memory Usage
+- Node Metrics
+
+Dashboard verifies real-time infrastructure monitoring.
+
+---
+
+# 📸 Screenshots Included
+
+## Terraform
+
+- Terraform Init
+- Terraform Plan
+- Terraform Apply
+- AWS Resources Created
+
+## Jenkins
+
+- Jenkins Dashboard
+- Jenkins Pipeline Success
+- Console Output
+
+## Docker
+
+- Docker Build
+- Docker Images
+- Docker Containers
+
+## DockerHub
+
+- Docker Image Repository
+
+## Kubernetes
+
+- Running Pods
+- Services
+- LoadBalancer
+- Application
+
+## Monitoring
+
+- Prometheus UI
+- Grafana Login
+- Grafana Dashboard
+- Node Exporter Metrics
+- Monitoring Containers
+
+---
+
+# 📈 Project Outcome
+
+Successfully implemented a production-ready DevOps workflow including
+
+- Infrastructure as Code using Terraform
+- Automated Jenkins Installation
+- Docker Containerization
+- DockerHub Image Repository
+- CI/CD Pipeline
+- Amazon EKS Deployment
+- Kubernetes Workloads
+- GitHub Integration
+- Open-source Monitoring using Prometheus
+- Grafana Dashboard Visualization
+
+---
+
+# ✅ Features
+
+✔ Infrastructure as Code
+
+✔ Automated Jenkins Installation
+
+✔ Automated CI/CD Pipeline
+
+✔ Dockerized Application
+
+✔ DockerHub Integration
+
+✔ Kubernetes Deployment
+
+✔ Amazon EKS
+
+✔ GitHub Integration
+
+✔ Prometheus Monitoring
+
+✔ Grafana Dashboard
+
+✔ Production Ready Workflow
+
+---
+
+# 📚 Learning Outcomes
+
+This project demonstrates hands-on experience with
+
+- AWS Cloud
+- Terraform
+- Docker
+- Jenkins
+- DockerHub
+- Kubernetes
+- Amazon EKS
+- GitHub Actions & Webhooks
+- Prometheus
+- Grafana
+- Infrastructure Automation
+- Continuous Integration
+- Continuous Deployment
+- Monitoring and Observability
+
+---
+
+# 👨‍💻 Author
+
+**Lokesh D**
+
+DevOps Engineer
+
+GitHub:
+https://github.com/dlokeshmech-glitch
+
+---
