@@ -1,20 +1,34 @@
 #!/bin/bash
 
-yum update -y
+# Update Ubuntu
+apt-get update -y
 
-yum install git docker -y
+# Install Git
+apt-get install -y git
 
-systemctl start docker
+# Install Docker
+apt-get install -y docker.io
+
 systemctl enable docker
+systemctl start docker
 
-yum install java-17-amazon-corretto -y
+# Install Java
+apt-get install -y openjdk-17-jdk
 
-wget -O /etc/yum.repos.d/jenkins.repo \
-https://pkg.jenkins.io/redhat-stable/jenkins.repo
+# Install curl
+apt-get install -y curl
 
-rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+# Add Jenkins Repository
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | \
+tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
 
-yum install jenkins -y
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | \
+tee /etc/apt/sources.list.d/jenkins.list > /dev/null
 
+# Install Jenkins
+apt-get update -y
+apt-get install -y jenkins
+
+# Start Jenkins
 systemctl enable jenkins
 systemctl start jenkins
